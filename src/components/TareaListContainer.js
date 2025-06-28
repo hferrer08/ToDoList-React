@@ -50,7 +50,7 @@ const TareaListContainer = () => {
       <h1>Lista de Tareas</h1>
 
        <button onClick={() => setShowModal(true)}>Nueva Tarea</button>
-      <TareaList tareas={tareas} />
+      <TareaList tareas={tareas} onEditar={handleEditarClick} />
       {showModal && (
         <TareaModal
           onClose={() => {
