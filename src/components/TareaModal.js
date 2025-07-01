@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import './TareaModal.css';
 
-function TareaModal({ onClose, onGuardar, tareaEditada = null }) {
+function TareaModal({ onClose, onGuardar, tareaEditada = null}) {
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('');
 
@@ -32,43 +33,57 @@ function TareaModal({ onClose, onGuardar, tareaEditada = null }) {
     setDescripcion('');
   };
 
-  return (
-    <div style={{
-      backgroundColor: 'rgba(0,0,0,0.4)',
-      position: 'fixed',
-      top: 0, left: 0, right: 0, bottom: 0,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 1000
-    }}>
-      <div style={{
-        background: 'white',
-        padding: '20px',
-        borderRadius: '8px',
-        width: '300px'
-      }}>
-        <h2>{tareaEditada ? 'Editar Tarea' : 'Nueva Tarea'}</h2>
+ return (
+  <div className="modal-overlay">
+    <div className="modal-content-custom">
+      <h4 className="mb-4 text-center">{tareaEditada ? 'Editar Tarea' : 'Nueva Tarea'}</h4>
+      
+      <div className="mb-3">
+        <label htmlFor="nombreTarea" className="form-label">Nombre</label>
         <input
+          id="nombreTarea"
           type="text"
-          placeholder="Nombre"
+          className="form-control"
+          placeholder="Nombre de la tarea"
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
-          style={{ width: '100%', marginBottom: '10px' }}
+           
         />
+      </div>
+
+      <div className="mb-4">
+        <label htmlFor="descripcionTarea" className="form-label">Descripción</label>
         <textarea
-          placeholder="Descripción"
+          id="descripcionTarea"
+          className="form-control"
+          placeholder="Descripción de la tarea"
           value={descripcion}
           onChange={(e) => setDescripcion(e.target.value)}
-          style={{ width: '100%', marginBottom: '10px' }}
+          rows="3"
+           // deshabilitar si está cargando
         />
-        <button onClick={handleGuardarClick} style={{ marginRight: '10px' }}>
+      </div>
+
+      <div className="d-flex justify-content-end align-items-center">
+       
+        <button 
+          onClick={handleGuardarClick} 
+          className="btn btn-success me-2" 
+          
+        >
           {tareaEditada ? 'Actualizar' : 'Guardar'}
         </button>
-        <button onClick={onClose}>Cancelar</button>
+        <button 
+          onClick={onClose} 
+          className="btn btn-secondary"
+          
+        >
+          Cancelar
+        </button>
       </div>
     </div>
-  );
+  </div>
+);
 }
 
 export default TareaModal;
