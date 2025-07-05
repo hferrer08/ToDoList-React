@@ -10,19 +10,28 @@ const TareaListContainer = () => {
   const [showModal, setShowModal] = useState(false);
   const [tareaAEditar, setTareaAEditar] = useState(null);
 
-  const [loading, setLoading] = useState(false);
+const [loadingTareas, setLoadingTareas] = useState(false);
+const [loadingGuardar, setLoadingGuardar] = useState(false);
 
-  const fetchTareas = async () => {
-    setLoading(true); // ← activa el spinner
-    try {
-      const res = await fetch("https://tareasapi-vgud.onrender.com/api/tareas");
-      const data = await res.json();
-      setTareas(data);
-    } catch (error) {
-      console.error("Error al cargar tareas", error);
-    }
-    setLoading(false); // ← desactiva el spinner
-  };
+const fetchTareas = async () => {
+  setLoadingTareas(true);// activar spinner
+  try {
+    
+    const res = await fetch("https://tareasapi-vgud.onrender.com/api/tareas");
+    const data = await res.json();
+
+     // Ordenar: primero las no completadas
+    const tareasOrdenadas = data.sort((a, b) => {
+      return a.completada === b.completada ? 0 : a.completada ? 1 : -1;
+    });
+
+    setTareas(tareasOrdenadas);
+  } catch (error) {
+    console.error("Error al cargar tareas", error);
+  } finally {
+     setLoadingTareas(false); // desactivar spinner siempre
+  }
+};
 
   useEffect(() => {
     fetchTareas();
@@ -56,13 +65,16 @@ const TareaListContainer = () => {
     fetchTareas(); // refresca la lista
   };
 
-  const handleGuardarTarea = async (tarea) => {
-    const url = tarea.id
-      ? `https://tareasapi-vgud.onrender.com/api/tareas/${tarea.id}`
-      : `https://tareasapi-vgud.onrender.com/api/tareas`;
+ const handleGuardarTarea = async (tarea) => {
+ setLoadingGuardar(true);  // Activa spinner
 
-    const metodo = tarea.id ? "PUT" : "POST";
+  const url = tarea.id
+    ? `https://tareasapi-vgud.onrender.com/api/tareas/${tarea.id}`
+    : `https://tareasapi-vgud.onrender.com/api/tareas`;
 
+  const metodo = tarea.id ? "PUT" : "POST";
+
+  try {
     await fetch(url, {
       method: metodo,
       headers: {
@@ -73,8 +85,14 @@ const TareaListContainer = () => {
 
     setShowModal(false);
     setTareaAEditar(null);
-    fetchTareas(); // refresca lista
-  };
+    await fetchTareas(); // refresca lista
+  } catch (error) {
+    console.error("Error guardando tarea", error);
+    // Opcional: puedes mostrar una alerta o mensaje de error
+  } finally {
+    setLoadingGuardar(false); // Apaga spinner en cualquier caso
+  }
+};
 
   const handleEditarClick = (tarea) => {
     setTareaAEditar(tarea);
@@ -83,16 +101,19 @@ const TareaListContainer = () => {
  return (
   <div className="col-12 d-flex justify-content-center">
     <div className="col-12">
-      <button
-        type="button"
-        className="btn btn-outline-secondary m-1"
-        onClick={() => setShowModal(true)}
-      >
-        Nueva Tarea
-      </button>
+      <div className="row d-flex flex-row-reverse">
+        <button
+          type="button"
+          className="btn btn-outline-secondary m-1 col-md-2"
+          onClick={() => setShowModal(true)}
+          disabled={loadingGuardar} // opcional, para evitar abrir modal mientras carga
+        >
+          Nueva Tarea
+        </button>
+      </div>
 
-      {loading ? (
-       <Spinner /> 
+      {loadingTareas ? (
+        <Spinner fullscreen />
       ) : tareas.length === 0 ? (
         <NoTareas />
       ) : (
@@ -112,11 +133,13 @@ const TareaListContainer = () => {
           }}
           onGuardar={handleGuardarTarea}
           tareaEditada={tareaAEditar}
+          loading={loadingGuardar}
         />
       )}
     </div>
   </div>
 );
+
 };
 
 export default TareaListContainer;
