@@ -70,14 +70,3 @@ Este proyecto está enfocado en el **aprendizaje y la práctica del desarrollo f
 🔗 [Ver aplicación en producción](https://hferrer08.github.io/ToDoList-React/)
 
 ---
-
-## 📌 Notas
-
-- Puedes adaptar el proyecto para usar otras tecnologías como Axios, React Query o bases de datos externas.
-- El backend fue desarrollado en .NET Core y puede encontrarse en su propio repositorio (si corresponde).
-
----
-
-## 📄 Licencia
-
-Este proyecto está disponible para fines educativos y de práctica personal.
