@@ -1,23 +1,83 @@
 # ToDoListReact
 
-Proyecto de una aplicación ToDo List (lista de tareas) desarrollada con React en el frontend, consumiendo una API REST creada con .NET Core y SQLite.
+Aplicación **ToDo List** (lista de tareas) desarrollada con **React** en el frontend, que consume una **API REST** construida con **.NET Core** y **SQLite**.
 
-Esta app permite listar, crear, modificar y eliminar tareas de forma sencilla, ideal para practicar React paso a paso y entender el consumo de APIs desde el frontend.
-
-## Tecnologías utilizadas
-
-- React (creado con Create React App)
-- .NET Core Web API
-- SQLite (base de datos local para almacenamiento)
-- Fetch API para consumo de endpoints REST
-
-## Uso
-
-1. Clonar el repositorio
-2. Ejecutar `npm install` para instalar dependencias
-3. Ejecutar `npm start` para levantar el frontend
-4. Asegurarse que la API esté corriendo y accesible
+Permite listar, crear, modificar y eliminar tareas de forma sencilla. Es ideal para practicar desarrollo fullstack paso a paso y entender cómo consumir APIs desde el frontend.
 
 ---
 
-Este proyecto está enfocado en el aprendizaje y la práctica de desarrollo fullstack con React y .NET.
+## 🚀 Tecnologías utilizadas
+
+- ⚛️ React (con Create React App)
+- 🔧 .NET Core Web API (backend)
+- 🗂️ SQLite (base de datos local)
+- 🌐 Fetch API (para consumo de endpoints REST)
+- 💬 SweetAlert2 (validaciones visuales y mensajes)
+
+---
+
+## 📦 Uso del proyecto
+
+1. Clona este repositorio:
+   ```bash
+   git clone https://github.com/hferrer08/ToDoList-React.git
+   ```
+
+2. Instala las dependencias del frontend:
+   ```bash
+   npm install
+   ```
+
+3. Ejecuta el frontend:
+   ```bash
+   npm start
+   ```
+
+4. Asegúrate de que la API backend esté corriendo y accesible.
+
+---
+
+## ✨ Funcionalidades
+
+- ✅ Listar tareas
+- ➕ Crear nuevas tareas
+- 📝 Editar tareas existentes
+- ❌ Eliminar tareas
+- 🎨 Modal de creación/edición
+- ⚠️ Validaciones visuales con SweetAlert2
+- 📡 Consumo de API externa (hosteada en Render)
+
+---
+
+## 📚 Propósito
+
+Este proyecto está enfocado en el **aprendizaje y la práctica del desarrollo fullstack**, integrando tecnologías modernas como React y .NET. Ideal para quienes buscan entender el flujo completo cliente-servidor en una aplicación real.
+
+---
+
+## 🧠 Aprendizajes clave
+
+- Componentización en React
+- Manejo de estado local y global (Context API)
+- Llamadas a API REST desde el frontend
+- Validaciones visuales reutilizables con SweetAlert2
+- Despliegue de frontend en GitHub Pages
+
+---
+
+## 🌍 Demo
+
+🔗 [Ver aplicación en producción](https://hferrer08.github.io/ToDoList-React/)
+
+---
+
+## 📌 Notas
+
+- Puedes adaptar el proyecto para usar otras tecnologías como Axios, React Query o bases de datos externas.
+- El backend fue desarrollado en .NET Core y puede encontrarse en su propio repositorio (si corresponde).
+
+---
+
+## 📄 Licencia
+
+Este proyecto está disponible para fines educativos y de práctica personal.
