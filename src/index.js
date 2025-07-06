@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import './index.css'; 
+import './index.css';
+import { TareaProvider } from "./context/TareaContext"; 
 
 //Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,4 +16,8 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+root.render(
+  <TareaProvider>
+    <App />
+  </TareaProvider>
+);

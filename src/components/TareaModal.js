@@ -1,38 +1,62 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './TareaModal.css';
 import Spinner from './Spinner';
+import { TareaContext } from '../context/TareaContext';
+import { mostrarAlert } from '../utils/Alerts';
 
-function TareaModal({ onClose, onGuardar, tareaEditada = null, loading}) {
+function TareaModal() {
+  
+   const {
+    tareaAEditar,
+    handleGuardarTarea,
+    loadingGuardar,
+     setShowModal,
+     setTareaAEditar,
+  } = useContext(TareaContext);
+  
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [completada, setCompletada] = useState(false);
 
   useEffect(() => {
-    if (tareaEditada) {
-      setNombre(tareaEditada.nombre);
-      setDescripcion(tareaEditada.descripcion);
-      setCompletada(tareaEditada.completada);
+    if (tareaAEditar) {
+      setNombre(tareaAEditar.nombre);
+      setDescripcion(tareaAEditar.descripcion);
+      setCompletada(tareaAEditar.completada);
     } else {
       setNombre('');
       setDescripcion('');
       setCompletada(false);
     }
-  }, [tareaEditada]);
+  }, [tareaAEditar]);
 
   const handleGuardarClick = () => {
-    if (!nombre.trim()) {
-      alert("El nombre de tarea es obligatorio.");
-      return;
-    }
+     if (!nombre.trim()) {
+    mostrarAlert({
+      icon: 'warning',
+      title: 'Campo obligatorio',
+      text: 'El nombre de la tarea es requerido.'
+    });
+    return;
+  }
+
+   if (nombre.length > 100 || descripcion.length > 100) {
+    mostrarAlert({
+      icon: 'warning',
+      title: 'Texto muy largo',
+      text: 'El nombre o descripción de la tarea no puede superar los 100 caracteres.'
+    });
+    return;
+  }
 
     const tarea = {
-      ...tareaEditada, // si es nueva, no tiene id
+      ...tareaAEditar, // si es nueva, no tiene id
       nombre,
       descripcion,
       completada
     };
 
-    onGuardar(tarea);
+    handleGuardarTarea(tarea);
     setNombre('');
     setDescripcion('');
     setCompletada(false);
@@ -41,7 +65,7 @@ function TareaModal({ onClose, onGuardar, tareaEditada = null, loading}) {
  return (
   <div className="custom-modal-overlay">
     <div className="modal-content-custom">
-      <h4 className="mb-4 text-center">{tareaEditada ? 'Editar Tarea' : 'Nueva Tarea'}</h4>
+      <h4 className="mb-4 text-center">{tareaAEditar ? 'Editar Tarea' : 'Nueva Tarea'}</h4>
       
       <div className="mb-3">
         <label htmlFor="nombreTarea" className="form-label">Nombre</label>
@@ -52,7 +76,7 @@ function TareaModal({ onClose, onGuardar, tareaEditada = null, loading}) {
           placeholder="Nombre de la tarea"
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
-           disabled={loading}
+           disabled={loadingGuardar}
         />
       </div>
 
@@ -65,7 +89,7 @@ function TareaModal({ onClose, onGuardar, tareaEditada = null, loading}) {
           value={descripcion}
           onChange={(e) => setDescripcion(e.target.value)}
           rows="6"
-          disabled={loading}
+          disabled={loadingGuardar}
            
         />
       </div>
@@ -77,14 +101,14 @@ function TareaModal({ onClose, onGuardar, tareaEditada = null, loading}) {
     id="completadaCheckbox"
     checked={completada}
     onChange={(e) => setCompletada(e.target.checked)}
-    disabled={loading}
+    disabled={loadingGuardar}
   />
   <label className="form-check-label" htmlFor="completadaCheckbox">
     Tarea completada
   </label>
 </div>
 
-      {loading && (
+      {loadingGuardar && (
           <div className="text-center my-3">
             <Spinner />
           </div>
@@ -93,16 +117,25 @@ function TareaModal({ onClose, onGuardar, tareaEditada = null, loading}) {
       <div className="d-flex justify-content-end align-items-center">
        
         <button 
-          onClick={handleGuardarClick} 
+          onClick={() => {
+              handleGuardarClick();
+              setShowModal(false);
+              setTareaAEditar(null);
+          }}
+            
+            
           className="btn btn-success me-2" 
-          disabled={loading}
+          disabled={loadingGuardar}
         >
-        {loading ? 'Guardando...' : tareaEditada ? 'Actualizar' : 'Guardar'}
+        {loadingGuardar ? 'Guardando...' : tareaAEditar ? 'Actualizar' : 'Guardar'}
         </button>
         <button 
-          onClick={onClose} 
+          onClick={() => {
+    setShowModal(false);
+    
+      }} 
           className="btn btn-secondary"
-           disabled={loading}
+           disabled={loadingGuardar}
         >
           Cancelar
         </button>
