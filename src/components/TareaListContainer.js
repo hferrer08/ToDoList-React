@@ -13,6 +13,7 @@ const {
     loadingTareas,
     loadingGuardar,
     tareaAEditar,
+     mostrarSpinnerTareas,
      showModal,
   setShowModal,
     setTareaAEditar,
@@ -43,7 +44,7 @@ const {
         </button>
       </div>
 
-      {loadingTareas ? (
+      {mostrarSpinnerTareas ? (
         <Spinner fullscreen />
       ) : tareas.length === 0 ? (
         <NoTareas />

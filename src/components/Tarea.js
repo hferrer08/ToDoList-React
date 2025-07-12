@@ -28,8 +28,9 @@ const Tarea = ({ tarea, onEditar, onEliminar, onToggleCompletada }) => {
       />
 
       <label className="m-0">
-        <strong>{tarea.nombre}</strong> - {tarea.descripcion}
-      </label>
+  <strong>{tarea.nombre}</strong>
+  {tarea.descripcion ? ` - ${tarea.descripcion}` : ""}
+</label>
       
       
       <div>      
