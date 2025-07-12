@@ -10,9 +10,12 @@ export const TareaProvider = ({ children }) => {
   const [tareaAEditar, setTareaAEditar] = useState(null);
   const [mostrarSpinnerTareas, setMostrarSpinnerTareas] = useState(false);
 
-  const actualizarTareas = (nuevasTareas) => {
-  setTareas(nuevasTareas);
-  localStorage.setItem("tareas", JSON.stringify(nuevasTareas));
+const actualizarTareas = (nuevasTareas) => {
+  const tareasOrdenadas = [...nuevasTareas].sort((a, b) =>
+    a.completada === b.completada ? 0 : a.completada ? 1 : -1
+  );
+  setTareas(tareasOrdenadas);
+  localStorage.setItem("tareas", JSON.stringify(tareasOrdenadas));
 };
 
 useEffect(() => {
